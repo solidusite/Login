@@ -189,7 +189,15 @@ class LoginRegisterController extends LoginController {
             $alreadyExists = $this->modx->getObject('modUser',array('username' => $username));
             if ($alreadyExists) {
                 $cachePwd = $alreadyExists->get('cachepwd');
-                if ($this->getProperty('removeExpiredRegistrations',true,'isset') && $alreadyExists->get('active') == 0 && !empty($cachePwd)) {
+                // SE non è un ente rifaccio registrazione
+                if(!$alreadyExists->isMember(array('INP APP User','COO APP User','User'))){
+                    if($alreadyExists->isMember('Newsletter')) $this->setProperty('usergroups','Newsletter');
+                    if (!$alreadyExists->remove()) {
+                        $this->modx->log(modX::LOG_LEVEL_ERROR,'[Login] Could not remove old, deactive user with cachepwd.');
+                        $success = false;
+                    }
+                }
+                else if ($this->getProperty('removeExpiredRegistrations',true,'isset') && $alreadyExists->get('active') == 0 && !empty($cachePwd)) {
                     /* if inactive and has a cachepwd, probably an expired
                      * activation account, so let's remove it
                      * and let user re-register
