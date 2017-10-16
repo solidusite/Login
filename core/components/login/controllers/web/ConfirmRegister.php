@@ -193,25 +193,30 @@ class LoginConfirmRegisterController extends LoginController {
         }
         $redirectTo = $this->getProperty('redirectTo',$redirectBack);
         if (!empty($redirectTo)) {
-            /* allow custom redirection params */
-            $redirectParams = $this->getProperty('redirectParams',$redirectBackParams);
-            if (!empty($redirectParams) && !is_array($redirectParams)) $redirectParams = $this->modx->fromJSON($redirectParams);
-            if (empty($redirectParams) || !is_array($redirectParams)) $redirectParams = array();
+            if(is_int($redirectTo)){
+                /* allow custom redirection params */
+                $redirectParams = $this->getProperty('redirectParams',$redirectBackParams);
+                if (!empty($redirectParams) && !is_array($redirectParams)) $redirectParams = $this->modx->fromJSON($redirectParams);
+                if (empty($redirectParams) || !is_array($redirectParams)) $redirectParams = array();
 
-            /* handle persist params from Register snippet */
-            $redirectUnsetDefaultParams = (boolean) $this->getProperty('redirectUnsetDefaultParams', 0, 'isset');
-			if(!$redirectUnsetDefaultParams) {
-                $persistParams = $_GET;
-                unset($persistParams['lp'],$persistParams['lu'],$persistParams['id']);
-                $persistParams['username'] = $this->user->get('username');
-                $persistParams['userid'] = $this->user->get('id');
-                $redirectParams = array_merge($redirectParams,$persistParams);
-                unset($redirectParams[$this->modx->getOption('request_param_alias',null,'q')],$redirectParams['redirectBack']);
-			}
+                /* handle persist params from Register snippet */
+                $redirectUnsetDefaultParams = (boolean) $this->getProperty('redirectUnsetDefaultParams', 0, 'isset');
+                if(!$redirectUnsetDefaultParams) {
+                    $persistParams = $_GET;
+                    unset($persistParams['lp'],$persistParams['lu'],$persistParams['id']);
+                    $persistParams['username'] = $this->user->get('username');
+                    $persistParams['userid'] = $this->user->get('id');
+                    $redirectParams = array_merge($redirectParams,$persistParams);
+                    unset($redirectParams[$this->modx->getOption('request_param_alias',null,'q')],$redirectParams['redirectBack']);
+                }
 
-            /* redirect user */
-            $url = $this->modx->makeUrl($redirectTo,'',$redirectParams,'full');
-            $this->modx->sendRedirect($url);
+                /* redirect user */
+                $url = $this->modx->makeUrl($redirectTo,'',$redirectParams,'full');
+                $this->modx->sendRedirect($url);
+            }else{
+                $this->modx->sendRedirect($redirectTo);
+            }
+
         }
     }
 }
