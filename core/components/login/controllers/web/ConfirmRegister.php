@@ -170,11 +170,14 @@ class LoginConfirmRegisterController extends LoginController {
     public function addSessionContexts() {
         if ($this->getProperty('authenticate',true,'isset')) {
             $this->modx->user =& $this->user;
-            $this->modx->getUser();
+            $this->modx->getUser('web');
             $contexts = $this->getProperty('authenticateContexts',$this->modx->context->get('key'));
             $contexts = explode(',',$contexts);
             foreach ($contexts as $ctx) {
                 $this->modx->user->addSessionContext($ctx);
+                if (!isset($_SESSION["modx.{$ctx}.user.token"]) || empty($_SESSION["modx.{$ctx}.user.token"])) {
+                    $_SESSION["modx.{$ctx}.user.token"]= $this->generateToken($ctx);
+                }
             }
         }
     }
