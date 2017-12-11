@@ -168,6 +168,7 @@ class LoginResetPasswordController extends LoginController {
      */
     public function getResponse() {
         $placeholders = array(
+            'id' => $this->user->get('id'),
             'username' => $this->user->get('username'),
             'loginUrl' => $this->modx->makeUrl($this->getProperty('loginResourceId',1)),
         );
