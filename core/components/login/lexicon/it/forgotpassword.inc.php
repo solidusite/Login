@@ -32,5 +32,5 @@ $_lang['login.forgot_password_email_subject'] = 'Password Retrieval Email';
 $_lang['login.or_forgot_username'] = 'O, dimenticato il nome utente';
 $_lang['login.reset_password'] = 'Reset Password';
 $_lang['login.username'] = 'Nome utente';
-$_lang['login.user_err_nf_email'] = 'Se esiste l\'utente o l\'email, riceverai una mail a breve.';
-$_lang['login.user_err_nf_username'] = 'Se esiste l\'utente o l\'email, riceverai una mail a breve.';
+$_lang['login.user_err_nf_email'] = "L'indirizzo email da te fornito non è presente nel nostro database. Riprova.";
+$_lang['login.user_err_nf_username'] = "L'indirizzo email da te fornito non è presente nel nostro database. Riprova.";
