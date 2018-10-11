@@ -190,7 +190,7 @@ class LoginRegisterController extends LoginController {
             if ($alreadyExists) {
                 $cachePwd = $alreadyExists->get('cachepwd');
                 // SE non è un ente rifaccio registrazione
-                if(!$alreadyExists->isMember(array('INP APP User','COO APP User','User'))){
+                if(!$alreadyExists->isMember(array('User'))){
                     if($alreadyExists->isMember('Newsletter')) $this->setProperty('usergroups','Newsletter,User');
                     if (!$alreadyExists->remove()) {
                         $this->modx->log(modX::LOG_LEVEL_ERROR,'[Login] Could not remove old, deactive user with cachepwd.');
