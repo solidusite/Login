@@ -3,7 +3,7 @@
   "lowCaseName": "login",
   "description": "Login and Registrations",
   "author": "Jason Coward & Shaun McCormick",
-  "version": "1.9.4-pl2",
+  "version": "1.9.7",
   "package": {
     "elements": {
       "snippets": [
@@ -135,11 +135,6 @@
               "value": true
             },
             {
-              "name": "successMessage",
-              "description": "prop_changepassword.successmessage_desc",
-              "value": ""
-            },
-            {
               "name": "placeholderPrefix",
               "description": "prop_changepassword.placeholderprefix_desc",
               "value": "logcp."
@@ -159,6 +154,12 @@
               "name": "redirectParams",
               "description": "prop_confirmregister.redirectparams_desc",
               "value": ""
+            },
+            {
+              "name": "redirectUnsetDefaultParams",
+              "description": "prop_confirmregister.redirectUnsetDefaultParam_desc",
+              "type": "combo-boolean",
+              "value": false
             },
             {
               "name": "authenticate",
@@ -340,12 +341,12 @@
               "value": ""
             },
             {
-              "name": "redirectto",
+              "name": "redirectTo",
               "description": "prop_isloggedin.redirectto_desc",
               "value": ""
             },
             {
-              "name": "redirectparams",
+              "name": "redirectParams",
               "description": "prop_isloggedin.redirectparams_desc",
               "value": ""
             }
@@ -642,11 +643,6 @@
               "value": "email"
             },
             {
-              "name": "successMsg",
-              "description": "prop_register.successmsg_desc",
-              "value": ""
-            },
-            {
               "name": "persistParams",
               "description": "prop_register.persistparams_desc",
               "value": ""
@@ -801,6 +797,18 @@
               "name": "mathOperatorField",
               "description": "prop_register.mathoperatorfield_desc",
               "value": "operator"
+            },
+            {
+              "name": "preserveFieldsAfterRegister",
+              "description": "prop_register.preservefieldsafterregister_desc",
+              "type": "combo-boolean",
+              "value": true
+            },
+            {
+              "name": "redirectUnsetDefaultParams",
+              "description": "prop_register.redirectUnsetDefaultParam_desc",
+              "type": "combo-boolean",
+              "value": false
             }
           ]
         },
@@ -986,8 +994,13 @@
     ]
   },
   "build": {
+    "readme": "docs/readme.md",
+    "license": "docs/license.md",
+    "changelog": "docs/changelog.md",
     "resolver": {
-      "after": ["fix.namespace.php"]
+      "after": [
+        "fix.namespace.php"
+      ]
     }
   }
 }

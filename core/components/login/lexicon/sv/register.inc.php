@@ -21,11 +21,10 @@
  * @package login
  */
 /**
- * Register Swedish lexicon for Login
+ * Register English lexicon for Login
  *
  * @package login
  * @subpackage lexicon
- * @author Joakim Nyman <joakim@edgefive.com>
  */
 $_lang['register.activation_email_subject'] = 'Tack för att du registrerade dig. Vänligen aktivera ditt konto!';
 $_lang['register.email'] = 'E-post';
@@ -56,6 +55,9 @@ $_lang['register.recaptcha_err_load'] = 'Kunde inte ladda reCaptcha tjänsteklas
 $_lang['register.register'] = 'Registrera';
 $_lang['register.spam_blocked'] = 'Din ansökan blockerades av ett skräppost filter: ';
 $_lang['register.spam_marked'] = ' - markerades som skräppost.';
+$_lang['register.use_stronger_password'] = 'Ditt lösenord är inte tillräckligt starkt. Försök att göra det starkare, till exempel genom att ersätta bokstäver med siffror eller lägga till ytterligare ord till lösenordet (prova ett lösenord som innehåller flera ord).
+Förslag: [[+suggestions]]';
 $_lang['register.user_err_save'] = 'Ett fel uppstod när användaren skulle lagras.';
 $_lang['register.username'] = 'Användarnamn';
 $_lang['register.username_taken'] = 'Användarnamnet är upptaget. Vänligen välj ett annat.';
+$_lang['register.validation_error_message'] = 'Formuläret är inte korrekt ifyllt. Vänligen kontrollera de värden som du har angett.';

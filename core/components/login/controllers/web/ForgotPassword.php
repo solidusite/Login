@@ -74,8 +74,9 @@ class LoginForgotPasswordController extends LoginController {
         if ($this->hasPost()) {
             $this->handlePost();
             $fields = $this->dictionary->toArray();
+            $fields = $this->escapePlaceholders($fields);
             foreach ($fields as $k => $v) {
-                $this->placeholders['loginfp.post.'.$k] = str_replace(array('[',']'),array('&#91;','&#93'),$v);
+                $this->placeholders['loginfp.post.'.$k] = $v;
             }
         }
 
@@ -207,7 +208,7 @@ class LoginForgotPasswordController extends LoginController {
         $fields = $this->dictionary->toArray();
         
         /* generate a password and encode it and the username into the url */
-        $password = $this->login->generatePassword();
+        $password = $this->modx->user->generatePassword();
         $confirmParams = array(
             'lp' => $this->login->base64url_encode($password),
             'lu' => $this->login->base64url_encode($fields['username'])

@@ -21,13 +21,12 @@
  * @package login
  */
 /**
- * Default Swedish language strings for Login
+ * Default English language strings for Login
  * @package login
  * @subpackage lexicon
- * @author Joakim Nyman <joakim@edgefive.com>
  */
-$_lang['login'] = 'Login';
-$_lang['login.invalid_post'] = 'WebLogin invalid POST action: [[+action]]';
+$_lang['login'] = 'Logga in';
+$_lang['login.invalid_post'] = 'Ogiltig WebLogin POST-händelse: [[+action]]';
 $_lang['login.login_err'] = 'Okänt fel vid inloggning!';
 $_lang['login.logout'] = 'Logga ut';
 $_lang['login.logout_err'] = 'Okänt fel vid utloggning!';

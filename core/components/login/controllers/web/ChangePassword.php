@@ -201,8 +201,12 @@ class LoginChangePasswordController extends LoginController {
     public function setToPlaceholders() {
         $placeholderPrefix = rtrim($this->getProperty('placeholderPrefix', 'logcp.'), '.');
         $errorPrefix = ($placeholderPrefix) ? $placeholderPrefix . '.error' : 'error';
+
+        $fields = $this->dictionary->toArray();
+        $fields = $this->escapePlaceholders($fields);
+
         $this->modx->toPlaceholders($this->errors, $errorPrefix);
-        $this->modx->toPlaceholders($this->dictionary->toArray(), $placeholderPrefix);
+        $this->modx->toPlaceholders($fields, $placeholderPrefix);
     }
 
     /**

@@ -21,7 +21,7 @@
  * @package login
  */
 /**
- * Forgot Password French lexicon for Login
+ * Forgot Password English lexicon for Login
  *
  * @package login
  * @subpackage lexicon
@@ -29,6 +29,14 @@
 $_lang['login.email'] = 'Adresse email';
 $_lang['login.forgot_password'] = 'Mot de passe oublié';
 $_lang['login.forgot_password_email_subject'] = 'Email de récupération de mot de passe';
+$_lang['login.forgot_password_email_text'] = 'Bonjour [[+username]] <p>,</p>
+<p>pour activer votre nouveau mot de passe, veuillez cliquer sur le lien suivant :</p>
+<p><a href="[[+confirmUrl]]">[[+confirmUrl]]</a></p>
+<p>si l’opération réussit, vous pouvez utiliser ce mot de passe pour vous connecter :</p>
+<p><strong>mot de passe :</strong> [[+password]]</p>
+<p>si vous n’a pas demandé ce message, veuillez l’ignorer. </p>
+<p>Merci,<br />
+<em>[[++site_name]] l\'Administration du Site</em></p>';
 $_lang['login.or_forgot_username'] = 'Oublié votre identifiant ?';
 $_lang['login.reset_password'] = 'Réinitialiser le mot de passe';
 $_lang['login.username'] = 'Identifiant';

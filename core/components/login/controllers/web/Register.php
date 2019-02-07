@@ -55,6 +55,7 @@ class LoginRegisterController extends LoginController {
             'postHooks' => '',
             'redirectBack' => '',
             'redirectBackParams' => '',
+            'redirectUnsetDefaultParams' => false,
             'submittedResourceId' => '',
             'submitVar' => 'login-register-btn',
             'successMsg' => '',
@@ -64,6 +65,9 @@ class LoginRegisterController extends LoginController {
             'validate' => '',
             'validatePassword' => true,
             'autoLogin' => false,
+            'jsonResponse' => false,
+            'validationErrorMessage' => 'A form validation error occurred. Please check the values you have entered.',
+            'preserveFieldsAfterRegister' => true
         ));
     }
 
@@ -101,8 +105,20 @@ class LoginRegisterController extends LoginController {
         $placeholderPrefix = rtrim($this->getProperty('placeholderPrefix', ''), '.');
         $errorPrefix = ($placeholderPrefix) ? $placeholderPrefix . '.error' : 'error';
         if ($this->validator->hasErrors()) {
-            $this->modx->toPlaceholders($this->validator->getErrors(), $errorPrefix);
+            $errors = $this->validator->getErrors();
+            // Return JSON error response if requested.
+            if ($this->getProperty('jsonResponse')) {
+                $jsonErrorOutput = array(
+                    'success'   => false,
+                    'message'   => $this->getProperty('validationErrorMessage'),
+                    'errors'    => $errors
+                );
+                header('Content-Type: application/json;charset=utf-8');
+                exit($this->modx->toJSON($jsonErrorOutput));
+            }
+            $this->modx->toPlaceholders($errors, $errorPrefix);
             $this->modx->toPlaceholder('validation_error', true, $placeholderPrefix);
+            $this->modx->toPlaceholder('validation_error_message', $this->getProperty('validationErrorMessage'), $placeholderPrefix);
         } else {
 
             $this->loadPreHooks();
@@ -118,17 +134,34 @@ class LoginRegisterController extends LoginController {
                 if ($result !== true) {
                     $this->modx->toPlaceholder('error.message', $result, $placeholderPrefix);
                 } else {
+                    // Return JSON success response if requested
+                    if ($this->getProperty('jsonResponse')) {
+                        $jsonSuccessOutput = array(
+                            'success'   => true,
+                            'message'   => $this->getProperty('successMsg','User registration successful.')
+                        );
+                        header('Content-Type: application/json;charset=utf-8');
+                        exit($this->modx->toJSON($jsonSuccessOutput));
+                    }
+                    $this->modx->toPlaceholder('successMsg', $this->getProperty('successMsg','User registration successful.'), $placeholderPrefix);
                     $this->success = true;
                 }
             }
         }
 
         $placeholders = $this->dictionary->toArray();
+
+        $placeholders = $this->escapePlaceholders($placeholders);
+
         $this->modx->toPlaceholders($placeholders, $placeholderPrefix);
         foreach ($placeholders as $k => $v) {
             if (is_array($v)) {
                 $this->modx->toPlaceholder($k, json_encode($v), $placeholderPrefix);
             }
+        }
+
+        if (!$this->success || $this->getProperty('preserveFieldsAfterRegister')) {
+            $this->modx->setPlaceholders($this->dictionary->toArray(), $placeholderPrefix);
         }
         return '';
     }
@@ -140,7 +173,7 @@ class LoginRegisterController extends LoginController {
     public function loadPreHooks() {
         $preHooks = $this->getProperty('preHooks','');
         $this->loadHooks('preHooks');
-        
+
         if (!empty($preHooks)) {
             $fields = $this->dictionary->toArray();
             /* do pre-register hooks */
@@ -171,14 +204,14 @@ class LoginRegisterController extends LoginController {
 
     /**
      * Ensure the username field is being sent and the username is not taken
-     * 
+     *
      * @return boolean
      */
     public function validateUsername() {
         $usernameField = $this->getProperty('usernameField','username');
         $username = $this->dictionary->get($usernameField);
         $success = true;
-        
+
         /* ensure username field exists and isn't empty */
         if (empty($username) && !$this->validator->hasErrorsInField($usernameField)) {
             $this->validator->addError($usernameField,$this->modx->lexicon('register.field_required'));
@@ -296,7 +329,7 @@ class LoginRegisterController extends LoginController {
      */
     public function preLoad() {
         $preHooks = $this->getProperty('preHooks','');
-        
+
         /* if using recaptcha, load recaptcha html */
         if (strpos($preHooks,'recaptcha') !== false) {
             $this->loadReCaptcha();
