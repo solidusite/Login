@@ -161,7 +161,7 @@ class Login {
         $this->modx->getService('mail', 'mail.modPHPMailer');
         $this->modx->mail->set(modMail::MAIL_BODY, $msg);
         $this->modx->mail->set(modMail::MAIL_FROM, $this->modx->getOption('emailsender'));
-        $this->modx->mail->set(modMail::MAIL_FROM_NAME, $this->modx->getOption('site_name'));
+        $this->modx->mail->set(modMail::MAIL_FROM_NAME, $properties['fromName']);
         $this->modx->mail->set(modMail::MAIL_SENDER, $this->modx->getOption('emailsender'));
         $this->modx->mail->set(modMail::MAIL_SUBJECT, $subject);
         if (!empty($msgAlt)) {
